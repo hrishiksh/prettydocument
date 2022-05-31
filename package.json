@@ -9,7 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@lillallol/outline-pdf": "^4.0.0",
+    "file-saver": "^2.0.5",
     "next": "12.1.6",
+    "pdf-lib": "^1.17.1",
     "react": "18.1.0",
     "react-dom": "18.1.0"
   },
