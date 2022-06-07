@@ -31,6 +31,23 @@ export default function Home() {
     setPdfFileData(docUrl);
   }
 
+  function range(start, end) {
+    let length = end - start + 1;
+    return Array.from({ length }, (_, i) => start + i - 1);
+  }
+
+  async function extractPdfPage(arrayBuff) {
+    const pdfSrcDoc = await PDFDocument.load(arrayBuff);
+    const pdfNewDoc = await PDFDocument.create();
+    const pages = await pdfNewDoc.copyPages(pdfSrcDoc,range(2,5));
+    pages.forEach(page=>pdfNewDoc.addPage(page));
+    const newpdf= await pdfNewDoc.save();
+    filesaver.saveAs(
+      new Blob([newpdf], { type: "application/pdf" }),
+      `extracted.pdf`
+    );
+  }
+
   async function OutlinePdf(arrybuff, fileName) {
     const outlinepdf = outlinePdfFactory(pdfLib);
     const outline = `
@@ -56,6 +73,7 @@ export default function Home() {
       const pdfArrayBuffer = await readFileAsync(fileList[0]);
       // OutlinePdf(pdfArrayBuffer,"test.pdf");
       renderPdf(pdfArrayBuffer);
+      extractPdfPage(pdfArrayBuffer);
     }
   };
 
