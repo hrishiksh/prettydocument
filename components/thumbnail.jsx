@@ -2,14 +2,14 @@
 
 export default function Thumbnail() {
   return (
-    <div className="w-96 h-[500px] flex flex-col justify-center items-center border border-gray-500 rounded-md cursor-pointer">
+    <div className="w-96 h-[500px] flex flex-col justify-center items-center border border-slate-300 rounded-md cursor-pointer">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="70"
         height="70"
         viewBox="0 0 23 23"
         strokeWidth=".5"
-        stroke="#2c3e50"
+        stroke="#6b7280"
         fill="none"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -19,7 +19,7 @@ export default function Thumbnail() {
         <path d="M18 17h-7a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h4l5 5v7a2 2 0 0 1 -2 2z" />
         <path d="M16 17v2a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h2" />
       </svg>
-      <p className="font-Inter pt-4">Click here or drop a pdf file</p>
+      <p className="font-Inter pt-4 text-gray-500">Click here or drop a pdf file</p>
     </div>
   );
 }
