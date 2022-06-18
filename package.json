@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "export":"next export"
+    "export": "next export"
   },
   "dependencies": {
     "@lillallol/outline-pdf": "^4.0.0",
@@ -16,6 +16,7 @@
     "pdf-lib": "^1.17.1",
     "react": "18.1.0",
     "react-dom": "18.1.0",
+    "react-pdf": "^5.7.2",
     "zustand": "^4.0.0-rc.1"
   },
   "devDependencies": {
