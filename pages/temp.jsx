@@ -39,9 +39,9 @@ export default function Home() {
   async function extractPdfPage(arrayBuff) {
     const pdfSrcDoc = await PDFDocument.load(arrayBuff);
     const pdfNewDoc = await PDFDocument.create();
-    const pages = await pdfNewDoc.copyPages(pdfSrcDoc,range(2,5));
-    pages.forEach(page=>pdfNewDoc.addPage(page));
-    const newpdf= await pdfNewDoc.save();
+    const pages = await pdfNewDoc.copyPages(pdfSrcDoc, range(2, 5));
+    pages.forEach((page) => pdfNewDoc.addPage(page));
+    const newpdf = await pdfNewDoc.save();
     filesaver.saveAs(
       new Blob([newpdf], { type: "application/pdf" }),
       `extracted.pdf`

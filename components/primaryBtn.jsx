@@ -1,6 +1,9 @@
-export default function PrimaryBtn({onClick, children }) {
+export default function PrimaryBtn({ onClick, children }) {
   return (
-    <button className="flex justify-center items-center w-full bg-yellow-500 px-4 py-3 rounded-md" onClick={onClick}>
+    <button
+      className="flex justify-center items-center w-full bg-yellow-500 px-4 py-3 rounded-md"
+      onClick={onClick}
+    >
       {children}
       <svg
         xmlns="http://www.w3.org/2000/svg"

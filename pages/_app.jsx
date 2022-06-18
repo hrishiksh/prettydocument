@@ -1,5 +1,4 @@
 import "../styles/globals.css";
-import Thumbnail from "../components/thumbnail";
 import Layout from "../components/layout";
 
 function MyApp({ Component, pageProps }) {

@@ -1,31 +1,39 @@
 import { useRef } from "react";
-import useFileStore from "../state/uploadFileStore";
+import useFileStore from "../state/useFilestore";
 import useReadFile from "../hooks/useReadFile";
 
 export default function Thumbnail() {
-
-  const inputFileRef=useRef();
+  const inputFileRef = useRef();
 
   const readFile = useReadFile();
 
-  const addnewFile=useFileStore((state)=>state.addNewFile);
+  const addnewFile = useFileStore((state) => state.addNewFile);
 
-  const handleFileclick=()=>{
+  const handleFileclick = () => {
     inputFileRef.current.click();
-  }
+  };
 
-  const handleFiles= async (e)=>{
-    const fileList=e.target.files;
+  const handleFiles = async (e) => {
+    const fileList = e.target.files;
     if (fileList?.length > 0) {
-      const fileArrayBuffer= await readFile(fileList[0]);
+      const fileArrayBuffer = await readFile(fileList[0]);
       addnewFile(fileArrayBuffer);
     }
-  }
+  };
 
   return (
-    <>
-      <input type="file" accept=".pdf" ref={inputFileRef} onChange={handleFiles} hidden/>
-      <div className="w-96 h-[500px] flex flex-col justify-center items-center border border-slate-300 rounded-md cursor-pointer" onClick={handleFileclick}>
+    <section>
+      <input
+        type="file"
+        accept=".pdf"
+        ref={inputFileRef}
+        onChange={handleFiles}
+        hidden
+      />
+      <div
+        className="w-96 h-[500px] flex flex-col justify-center items-center border border-slate-300 rounded-md cursor-pointer"
+        onClick={handleFileclick}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="70"
@@ -46,6 +54,6 @@ export default function Thumbnail() {
           Click here or drop a pdf file
         </p>
       </div>
-    </>
+    </section>
   );
 }

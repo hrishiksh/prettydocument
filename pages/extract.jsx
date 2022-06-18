@@ -1,9 +1,27 @@
+import { useState } from "react";
 import Link from "next/link";
 import PrimaryBtn from "../components/primaryBtn";
+import useFileStore from "../state/useFilestore";
+import useExtractpdf from "../hooks/useExtractpdf";
+import { saveAs } from "file-saver";
 
 export default function ExtractPage() {
+  const [text, setText] = useState("");
+  const file = useFileStore((state) => state.file);
+  const extractpdf = useExtractpdf();
+
+  const handlePdfExtract = async () => {
+    const rawPageRange = text.split("-");
+
+    const finalPdf = rawPageRange[1]
+      ? await extractpdf(file, Number(rawPageRange[0]), Number(rawPageRange[1]))
+      : await extractpdf(file, Number(rawPageRange[0]));
+
+    saveAs(new Blob([finalPdf], { type: "application/pdf" }), "test.pdf");
+  };
+
   return (
-    <section className="ml-16">
+    <section className="ml-16 w-80">
       <Link href="/">
         <div className="mb-12 flex justify-start items-center cursor-pointer">
           <svg
@@ -25,49 +43,15 @@ export default function ExtractPage() {
           <h1 className="font-Inter font-medium text-xl pl-2">Extract Pages</h1>
         </div>
       </Link>
-
-      <div className="mb-4">
-        <div class="flex justify-center">
-          <div>
-            <div class="form-check">
-              <input
-                class="appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-yellow-500 checked:border-yellow-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                type="radio"
-                name="flexRadioDefault"
-                id="flexRadioDefault1"
-              />
-              <label class="inline-block text-gray-800" for="flexRadioDefault1">
-                Default radio
-              </label>
-              <input
-                type="text"
-                placeholder="eg. 3"
-                className="my-4 px-4 py-3 w-full border rounded-md border-slate-300 placeholder-slate-400 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 font-Inter font-normal text-base"
-              />
-            </div>
-            <div class="form-check">
-              <input
-                class="appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-yellow-500 checked:border-yellow-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                type="radio"
-                name="flexRadioDefault"
-                id="flexRadioDefault2"
-                checked
-              />
-              <label class="inline-block text-gray-800" for="flexRadioDefault2">
-                Default checked radio
-              </label>
-              <input
-                type="text"
-                placeholder="eg. 3-5"
-                className="my-4 px-4 py-3 w-full border rounded-md border-slate-300 placeholder-slate-400 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 font-Inter font-normal text-base"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <PrimaryBtn>
-        Process
-      </PrimaryBtn>
+      <p className="font-Inter font-normal text-base">Enter page numbers</p>
+      <input
+        type="text"
+        placeholder="eg. 3"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        className="my-4 px-4 py-3 w-full border rounded-md border-slate-300 placeholder-slate-400 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 font-Inter font-normal text-base"
+      />
+      <PrimaryBtn onClick={handlePdfExtract}>Process</PrimaryBtn>
     </section>
   );
 }
