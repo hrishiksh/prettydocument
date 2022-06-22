@@ -3,12 +3,14 @@ import useFileStore from "../state/useFilestore";
 import useReadFile from "../hooks/useReadFile";
 import { Document, Page, pdfjs } from "react-pdf";
 import workerSrc from "../utils/pdf-worker";
+import PageChange from "../components/PageChange";
 
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
 export default function Thumbnail() {
   const [filename, setFileName] = useState("");
-
+  const [numpages, setNumpages] = useState();
+  const [currentPagenumber, setCurrentPageNumber] = useState();
   const inputFileRef = useRef();
 
   const readFile = useReadFile();
@@ -25,9 +27,14 @@ export default function Thumbnail() {
     if (fileList?.length > 0) {
       setFileName(fileList[0].name);
       const fileArrayBuffer = await readFile(fileList[0]);
+      setCurrentPageNumber(1);
       addnewFile(fileArrayBuffer);
     }
   };
+
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumpages(numPages);
+  }
 
   return (
     <section>
@@ -40,8 +47,8 @@ export default function Thumbnail() {
           hidden
         />
         <div className="document-container">
-          <Document file={file}>
-            <Page pageNumber={1} />
+          <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
+            <Page pageNumber={currentPagenumber} />
           </Document>
         </div>
         <div
@@ -74,6 +81,11 @@ export default function Thumbnail() {
             </p>
           </div>
         </div>
+        <PageChange
+          totalPage={numpages}
+          currentPageNumber={currentPagenumber}
+          setCurrentPageNumber={setCurrentPageNumber}
+        />
       </div>
 
       <p className="font-Inter font-normal text-base text-center py-4 max-w-[500px]">
